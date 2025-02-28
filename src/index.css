@@ -1,0 +1,103 @@
+html, body {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 25px;
+}
+
+fieldset.search {
+  border: 1px dashed orangered;
+  width: max-content;
+}
+
+fieldset.search > legend {
+  border: 1px dashed orangered;
+  padding: 3px 6px;
+}
+
+input.search.text {
+  border: none;
+  border-bottom: 1px solid black;
+  box-shadow: 0;
+  text-shadow: 0;
+}
+
+input.search.text:focus {
+  border: none;
+  border-bottom: 1px solid orange;
+  box-shadow: 0;
+  text-shadow: 0;
+  outline: none;
+}
+
+.playlist {
+  list-style: none;
+  padding: 0;
+}
+
+.menu.view {
+  position: absolute;
+  width: 200px;
+  height: min-content;
+  border: 1px solid red;
+  right: 35px;
+  top: 75px;
+  z-index: 10;
+}
+
+.menu.view {
+  display: block;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.menu.view.hide {
+  display: none;
+}
+
+img.album-cover {
+  width: 350px;
+  height: 350px;
+}
+
+fieldset.outputs {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: 350px;
+}
+
+fieldset.controls {
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 350px;
+}
+
+.control.hide {
+  display: none;
+}
+
+.progress {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+button {
+  background-color: rgba(0, 0, 0, 0.0);
+  border: none;
+  color: orangered;
+  font-size: 26px;
+}

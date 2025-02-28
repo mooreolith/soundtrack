@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="index.css" />
+    <script type="text/javascript" src="jsmediatags.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <div class="left">
+        <fieldset class="search">
+          <legend class="search legend">Search:</legend>
+
+          <input class="search text" type="text" />
+
+          <input 
+            class="search option artist" 
+            type="radio" 
+            name="search-type" 
+            value="artist" checked />
+          <label for="search-artist">Artist</label>
+
+          <input 
+            class="search option album" 
+            type="radio" 
+            name="search-type" 
+            value="album" />
+          <label for="search-album">Album</label>
+
+          <input 
+            class="search option song" 
+            type="radio" 
+            name="search-type" 
+            value="title" />
+          <label for="search-song">Song</label>
+        </fieldset>
+
+        <ol class="playlist">
+          <li class="load-directory">
+            <p class="menu open">Open Folder ...</p>
+          </li>
+        </ol>
+      </div>
+      <div class="middle">
+        <fieldset class="outputs">
+          <audio class="track"></audio>
+          <img class="album-cover" src="Initial Cover.jpg" />
+          <output class="current album"></output>
+          <output class="current artist"></output>
+          <output class="current song"></output>
+        </fieldset>
+        <fieldset class="controls">
+          <button class="control previous">⏮︎</button>
+          <button class="control play">⏵︎</button>
+          <button class="control pause" hidden="true">⏸︎</button>
+          <button class="control next">⏭︎</button>
+          
+          <progress class="progress" value="0" max="100"></progress>
+        </fieldset>
+      </div>
+      <div class="right">
+        <button class="toggle menu">...</button>
+        <div class="menu view hide">
+          <p class="menu open">Open Folder ...</p>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="index.mjs"></script>
+  </body>
+</html>
