@@ -24,8 +24,6 @@ const menuOpens = qsa('.menu.open');
 const main = qs('main');
 const playlist = qs('.playlist');
 
-window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-window.directoryEntry = window.directoryEntry || window.webkitDirectoryEntry;
 
 class MusicPlayer {
   #loaded = []; // list of all files
@@ -62,8 +60,8 @@ class MusicPlayer {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'audio/*';
-    input.webkitdirectory = true;
-    input.multiple = true;
+    input.setAttributeNode(document.createAttribute('webkitdirectory'));
+    input.setAttributeNode(document.createAttribute('multiple'));
 
     input.addEventListener('change', () => {
       Promise.all(Array
@@ -77,11 +75,12 @@ class MusicPlayer {
               tagReader.read(file, {
                 onSuccess: (result) => {
                   const tags = result.tags;
-                  const label = `${tags.artist} - ${tags.album} - ${tags.title}`;
+                  const label = `${tags.artist} - ${tags.album} - ${tags.track} - ${tags.title}`;
 
                   file.label = label;
                   file.artist = tags.artist;
                   file.album = tags.album;
+                  file.track = tags.track;
                   file.title = tags.title;
                   
                   file.loadedIndex = this.#loaded.length;
@@ -102,7 +101,9 @@ class MusicPlayer {
           }
         })
       ).then(() => {
-        this.#current = this.#loaded.filter(() => true);
+        this.#current = this.#loaded
+          .filter(() => true)
+          .sort(this.sortingFn);
         this.#updatePlaylist();    
       });
     });
@@ -117,7 +118,19 @@ class MusicPlayer {
   search(){
     const text = searchText.value.toLowerCase();
     const property = document.querySelector('.search.option:checked').value;
-    this.#current = this.#loaded.filter(file => file[property]?.toLowerCase()?.includes(text)); 
+    this.#current = this.#loaded.filter(file => file[property]?.toLowerCase()?.includes(text));
+  }
+
+  sortingFn(a, b){
+    if(a.artist < b.artist) return -1;
+    if(a.artist > b.artist) return 1;
+    if(a.album < b.album) return -1;
+    if(a.album > b.album) return 1;
+    if(parseInt(a.track) < parseInt(b.track)) return -1;
+    if(parseInt(a.track) > parseInt(b.track)) return 1;
+    if(a.title < b.title) return -1;
+    if(a.title > b.title) return 1;
+    return 0;
   }
 
   #updatePlaylist(){
@@ -129,6 +142,7 @@ class MusicPlayer {
       entry.dataset.label = file.label;
       entry.dataset.artist = file.artist;
       entry.dataset.album = file.album;
+      entry.dataset.track = file.track;
       entry.dataset.title = file.title;
       file.currentIndex = playlist.children.length
       entry.dataset.currentIndex = playlist.children.length;
