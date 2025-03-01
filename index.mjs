@@ -116,7 +116,9 @@ class MusicPlayer {
   search(){
     const text = searchText.value.toLowerCase();
     const property = document.querySelector('.search.option:checked').value;
-    this.#current = this.#loaded.filter(file => file[property]?.toLowerCase()?.includes(text));
+    this.#current = this.#loaded
+      .filter(file => file[property]?.toLowerCase()?.includes(text))
+      .sort(this.sortingFn);
   }
 
   sortingFn(a, b){
