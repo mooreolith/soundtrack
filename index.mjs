@@ -57,7 +57,7 @@ class MusicPlayer {
   loadDirectory(){
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'audio/*';
+    // input.accept = 'audio/*';
     input.setAttributeNode(document.createAttribute('webkitdirectory'));
     input.setAttributeNode(document.createAttribute('multiple'));
 
