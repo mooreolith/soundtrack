@@ -8,6 +8,7 @@ const searchText = qs('.search.text');
 const audio = qs('audio.track');
 const albumCover = qs('.album-cover');
 const currentSong = qs('.current.song');
+const timeOverview = qs('.time-overview');
 
 const play = qs('.control.play');
 const pause = qs('.control.pause');
@@ -19,7 +20,6 @@ const menu = qs('.menu.view');
 const toggleMenu = qs('.toggle.menu');
 const menuOpens = qsa('.menu.open');
 
-const main = qs('main');
 const playlist = qs('.playlist');
 
 
@@ -45,13 +45,33 @@ class MusicPlayer {
     next.addEventListener('click', () => this.nextTrack());
 
     audio.addEventListener('durationchange', () => audio.duration ? progress.max = audio.duration : null);
-    audio.addEventListener('timeupdate', () => progress.value = audio.currentTime);
+    audio.addEventListener('timeupdate', () => {
+      progress.value = audio.currentTime;
+      
+      const currentTime = this.formatSeconds(audio.currentTime);
+      const totalTime = this.formatSeconds(audio.duration);
+      
+      timeOverview.value = `${currentTime}/${totalTime}`;    
+    });
     audio.addEventListener('ended', () => this.nextTrack());
 
     searchText.addEventListener('keyup', () => {
       this.search();
       this.#updatePlaylist();
     });
+  }
+
+  formatSeconds(s){
+    s = parseInt(s);
+    let hours = Math.floor(s / 3600);
+    let minutes = Math.floor((s - (hours * 3600)) / 60);
+    let seconds = s - (hours * 3600) - (minutes * 60);
+
+    if(hours < 10) hours = "0" + hours;
+    if(minutes < 10) minutes = "0" + minutes;
+    if(seconds < 10) seconds = "0" + seconds;
+
+    return `${hours !== "00" ? hours + ":" : ""}${minutes}:${seconds}`;
   }
 
   loadDirectory(){
