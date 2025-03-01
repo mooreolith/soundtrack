@@ -16,6 +16,7 @@
           <input class="search text" type="text" />
 
           <input 
+            id="search-artist"
             class="search option artist" 
             type="radio" 
             name="search-type" 
@@ -23,6 +24,7 @@
           <label for="search-artist">Artist</label>
 
           <input 
+            id="search-album"
             class="search option album" 
             type="radio" 
             name="search-type" 
@@ -30,6 +32,7 @@
           <label for="search-album">Album</label>
 
           <input 
+            id="search-song"
             class="search option song" 
             type="radio" 
             name="search-type" 
@@ -53,8 +56,8 @@
         </fieldset>
         <fieldset class="controls">
           <button class="control previous">⏮︎</button>
-          <button class="control play">⏵︎</button>
-          <button class="control pause" hidden="true">⏸︎</button>
+          <button class="control play">⏵</button>
+          <button class="control pause" hidden="true">⏸</button>
           <button class="control next">⏭︎</button>
           
           <progress class="progress" value="0" max="100"></progress>

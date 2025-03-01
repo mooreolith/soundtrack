@@ -41,6 +41,10 @@ input.search.text:focus {
   padding: 0;
 }
 
+.playlist>*:nth-child(even){
+  background-color: rgb(231, 231, 231);
+}
+
 .menu.view {
   position: absolute;
   width: 200px;
