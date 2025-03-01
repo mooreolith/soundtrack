@@ -63,6 +63,7 @@ class MusicPlayer {
     input.type = 'file';
     input.accept = 'audio/*';
     input.webkitdirectory = true;
+    input.multiple = true;
 
     input.addEventListener('change', () => {
       Promise.all(Array
