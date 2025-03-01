@@ -7,8 +7,6 @@ const searchText = qs('.search.text');
 
 const audio = qs('audio.track');
 const albumCover = qs('.album-cover');
-const currentArtist = qs('.current.artist');
-const currentAlbum = qs('.current.album');
 const currentSong = qs('.current.song');
 
 const play = qs('.control.play');
@@ -75,7 +73,7 @@ class MusicPlayer {
               tagReader.read(file, {
                 onSuccess: (result) => {
                   const tags = result.tags;
-                  const label = `${tags.artist} - ${tags.album} - ${tags.track} - ${tags.title}`;
+                  const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
                   file.label = label;
                   file.artist = tags.artist;
@@ -194,14 +192,18 @@ class MusicPlayer {
     trackReader.readAsDataURL(track);
 
     // image
-    const path = track.webkitRelativePath.split('/').slice(0, -1).join('/');
-    const coverFile = this.#albumCovers.get(path);
-    
-    const imgReader = new FileReader();
-    imgReader.onload = () => {
-      albumCover.src = imgReader.result;
+    try{
+      const path = track.webkitRelativePath.split('/').slice(0, -1).join('/');
+      const coverFile = this.#albumCovers.get(path);
+      
+      const imgReader = new FileReader();
+      imgReader.onload = () => {
+        albumCover.src = imgReader.result;
+      }
+      imgReader.readAsDataURL(coverFile);
+    }catch(e){
+      albumCover.src = './Initial Cover.jpg';
     }
-    imgReader.readAsDataURL(coverFile);
   }
 
   pauseTrack(){
@@ -238,10 +240,6 @@ class MusicPlayer {
     menu.classList.toggle('hide');
   }
 
-  #updateProgress(){
-
-  }
-
   #togglePlayPause(state='play'){
     const entry = playlist.querySelector(`[data-current-index="${this.#currentIndex}"]`);
     const label = entry.dataset.label;
@@ -257,10 +255,6 @@ class MusicPlayer {
       pause.hidden = true;
       entry.innerText = `⏸︎ ${label}`;
     }
-  }
-
-  submitNothing(){
-    return false;
   }
 }
 
