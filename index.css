@@ -130,3 +130,33 @@ button {
   color: orangered;
   font-size: 26px;
 }
+
+button.control {
+  width: 35px;
+  height: 35px;
+  background-size: contain;
+}
+
+button.control.previous {
+  background-image: url('./img/previous.png');
+}
+
+button.control.play {
+  background-image: url('./img/play.png');
+}
+
+button.control.pause {
+  background-image: url('./img/pause.png');
+}
+
+button.control.next {
+  background-image: url('./img/next.png');
+}
+
+button.control.shuffle {
+  background-image: url('./img/shuffle.png');
+}
+
+button.control.shuffle.active {
+  box-shadow: inset 0px 0px 5px orangered;
+}

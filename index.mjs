@@ -14,6 +14,7 @@ const play = qs('.control.play');
 const pause = qs('.control.pause');
 const previous = qs('.control.previous');
 const next = qs('.control.next');
+const shuffle = qs('.control.shuffle');
 const progress = qs('.progress');
 
 const menu = qs('.menu.view');
@@ -33,6 +34,7 @@ class MusicPlayer {
   #albumCovers = new Map();
 
   #paused = false;
+  #shuffling = false;
 
   constructor(){
     toggleMenu.addEventListener('click', this.toggleMenu);
@@ -43,6 +45,7 @@ class MusicPlayer {
     pause.addEventListener('click', () => this.pauseTrack());
     previous.addEventListener('click', () => this.previousTrack());
     next.addEventListener('click', () => this.nextTrack());
+    shuffle.addEventListener('click', () => this.toggleShuffling());
 
     audio.addEventListener('durationchange', () => audio.duration ? progress.max = audio.duration : null);
     audio.addEventListener('timeupdate', () => {
@@ -59,6 +62,16 @@ class MusicPlayer {
       this.search();
       this.#updatePlaylist();
     });
+  }
+
+  toggleShuffling(){
+    if(this.#shuffling){
+      shuffle.classList.remove('active');
+      this.#shuffling = false;
+    }else{
+      shuffle.classList.add('active');
+      this.#shuffling = true;
+    }
   }
 
   formatSeconds(s){
@@ -93,6 +106,8 @@ class MusicPlayer {
               tagReader.read(file, {
                 onSuccess: (result) => {
                   const tags = result.tags;
+                  console.info(tags);
+
                   const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
                   file.label = label;
@@ -252,8 +267,13 @@ class MusicPlayer {
   }
 
   nextTrack(){
-    const ctn = parseInt(this.#currentIndex);
-    const ntn = ctn + 1;
+    let ntn;
+    if(!this.#shuffling){
+      const ctn = parseInt(this.#currentIndex);
+      ntn = ctn + 1;
+    }else{
+      ntn = Math.floor(Math.random() * this.#current.length);
+    }
     const nextTrack = playlist.querySelector(`li[data-current-index="${ntn}"]`);
     if(next) this.#playTrack(nextTrack);
   }
