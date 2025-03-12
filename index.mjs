@@ -63,25 +63,12 @@ class MusicPlayer {
 
     searchText.addEventListener('keyup', () => {
       this.search();
-      this.#updatePlaylist();
     });
 
     // search controls
-    searchArtist.addEventListener('change', () => {
-      this.search();
-      this.#updatePlaylist();
-    })
-
-    searchAlbum.addEventListener('change', () => {
-      this.search();
-      this.#updatePlaylist();
-    });
-
-    searchSong.addEventListener('change', () => {
-      this.search();
-      this.#updatePlaylist();
-    })
-
+    searchArtist.addEventListener('change', () => this.search());
+    searchAlbum.addEventListener('change', () => this.search());
+    searchSong.addEventListener('change', () => this.search());
   }
 
   toggleShuffling(){
@@ -128,11 +115,12 @@ class MusicPlayer {
                   const tags = result.tags;
                   const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
-                  file.label = label;
+                  file.label  = label;
                   file.artist = tags.artist;
-                  file.album = tags.album;
-                  file.track = tags.track;
-                  file.title = tags.title;
+                  file.year   = tags.year;
+                  file.album  = tags.album;
+                  file.track  = tags.track;
+                  file.title  = tags.title;
                   
                   file.loadedIndex = this.#loaded.length;
                   this.#loaded.push(file);
@@ -169,20 +157,33 @@ class MusicPlayer {
   search(){
     const text = searchText.value.toLowerCase();
     const property = document.querySelector('.search.option:checked').value;
+    const currentlyPlaying = this.#current[this.#currentIndex];
     this.#current = this.#loaded
       .filter(file => file[property]?.toLowerCase()?.includes(text))
       .sort(this.sortingFn);
+    this.#currentIndex = this.#current.indexOf(currentlyPlaying) ?? 0;      
+    this.#updatePlaylist();
   }
 
   sortingFn(a, b){
-    if(a.artist < b.artist) return -1;
-    if(a.artist > b.artist) return 1;
-    if(a.album < b.album) return -1;
-    if(a.album > b.album) return 1;
-    if(parseInt(a.track) < parseInt(b.track)) return -1;
-    if(parseInt(a.track) > parseInt(b.track)) return 1;
-    if(a.title < b.title) return -1;
-    if(a.title > b.title) return 1;
+    if(a.artist !== b.artist){
+      if(a.artist < b.artist) return -1;
+      if(a.artist > b.artist) return 1;
+    }
+    if(a.year !== b.year){
+      return parseInt(a.year) - parseInt(b.year);
+    }
+    if(a.album !== b.album){
+      if(a.album < b.album) return -1;
+      if(a.album > b.album) return 1;
+    }
+    if(a.track !== b.track){
+      return parseInt(a.track) - parseInt(b.track);
+    }
+    if(a.title !== b.title){
+      if(a.title < b.title) return -1;
+      if(a.title > b.title) return 1;
+    }
     return 0;
   }
 
@@ -194,6 +195,7 @@ class MusicPlayer {
 
       entry.dataset.label = file.label;
       entry.dataset.artist = file.artist;
+      entry.dataset.year = file.year;
       entry.dataset.album = file.album;
       entry.dataset.track = file.track;
       entry.dataset.title = file.title;
@@ -230,7 +232,6 @@ class MusicPlayer {
     document.querySelector(`.search.option:checked`).checked = false;
     document.querySelector(`.search.option[value=${type}]`).checked = true;
     this.search();
-    this.#updatePlaylist();
   }
 
   #playTrack(entry){
