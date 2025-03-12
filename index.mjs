@@ -106,8 +106,6 @@ class MusicPlayer {
               tagReader.read(file, {
                 onSuccess: (result) => {
                   const tags = result.tags;
-                  console.info(tags);
-
                   const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
                   file.label = label;
@@ -207,13 +205,23 @@ class MusicPlayer {
     }
   }
 
+  setSearch(term, type){
+    searchText.value = term;
+    document.querySelector(`.search.option:checked`).checked = false;
+    document.querySelector(`.search.option[value=${type}]`).checked = true;
+    this.search();
+    this.#updatePlaylist();
+  }
+
   #playTrack(entry){
     const currentlyPlaying = playlist.querySelector(`[data-current-index="${this.#currentIndex}"]`);
     if(currentlyPlaying) currentlyPlaying.innerText = currentlyPlaying.dataset.label;
 
     this.#currentIndex = parseInt(entry.dataset.currentIndex);
     this.#loadedIndex = parseInt(entry.dataset.loadedIndex);
-    currentSong.innerText = entry.dataset.label;
+    
+    // set currentSong()
+    this.setCurrentSong(entry);
 
     // audio
     const trackReader = new FileReader();
@@ -241,6 +249,29 @@ class MusicPlayer {
     }catch(e){
       albumCover.src = './Initial Cover.jpg';
     }
+  }
+
+  setCurrentSong(entry) {
+    currentSong.innerHTML = '';
+
+    const artistLabel = document.createElement('label');
+    artistLabel.innerText = entry.dataset.artist ?? "Unknown Artist";
+    artistLabel.addEventListener('click', () => this.setSearch(entry.dataset.artist, 'artist'));
+
+    const albumLabel = document.createElement('label');
+    albumLabel.innerText = ` - ${entry.dataset.album ?? "Unknown Album"}`;
+    albumLabel.addEventListener('click', () => this.setSearch(entry.dataset.album, 'album'));
+
+    const trackLabel = document.createElement('label');
+    trackLabel.innerText = entry.dataset.track ? `- ${entry.dataset.track}` : ``;
+
+    const titleLabel = document.createElement('label');
+    titleLabel.innerText = `- ${entry.dataset.title ?? "Unknown Song"}`;
+
+    currentSong.appendChild(artistLabel);
+    currentSong.appendChild(albumLabel);
+    currentSong.appendChild(trackLabel);
+    currentSong.appendChild(titleLabel);
   }
 
   pauseTrack(){
