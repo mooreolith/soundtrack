@@ -3,26 +3,29 @@ const qsa = (sel) => document.querySelectorAll(sel);
 
 const tagReader = window.jsmediatags;
 
-const searchText = qs('.search.text');
+const searchText = qs('.search.text'); // the search term text box
 
-const audio = qs('audio.track');
-const albumCover = qs('.album-cover');
-const currentSong = qs('.current.song');
-const timeOverview = qs('.time-overview');
+const searchArtist = qs('.search.artist'); // radio buttons
+const searchAlbum = qs('.search.album');
+const searchSong = qs('.search.song');
 
-const play = qs('.control.play');
+const audio = qs('audio.track'); // audio element
+const albumCover = qs('.album-cover'); // current album cover (./folder.jpg)
+const currentSong = qs('.current.song'); // current song information
+const timeOverview = qs('.time-overview'); // play time
+
+const play = qs('.control.play'); // media controls
 const pause = qs('.control.pause');
 const previous = qs('.control.previous');
 const next = qs('.control.next');
 const shuffle = qs('.control.shuffle');
 const progress = qs('.progress');
 
-const menu = qs('.menu.view');
+const menu = qs('.menu.view'); // 3 dot menu to the left
 const toggleMenu = qs('.toggle.menu');
 const menuOpens = qsa('.menu.open');
 
-const playlist = qs('.playlist');
-
+const playlist = qs('.playlist'); // the playlist/search-results itself
 
 class MusicPlayer {
   #loaded = []; // list of all files
@@ -62,6 +65,23 @@ class MusicPlayer {
       this.search();
       this.#updatePlaylist();
     });
+
+    // search controls
+    searchArtist.addEventListener('change', () => {
+      this.search();
+      this.#updatePlaylist();
+    })
+
+    searchAlbum.addEventListener('change', () => {
+      this.search();
+      this.#updatePlaylist();
+    });
+
+    searchSong.addEventListener('change', () => {
+      this.search();
+      this.#updatePlaylist();
+    })
+
   }
 
   toggleShuffling(){
