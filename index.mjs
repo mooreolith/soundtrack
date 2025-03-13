@@ -5,6 +5,7 @@ const tagReader = window.jsmediatags;
 
 const searchText = qs('.search.text'); // the search term text box
 
+const clearSearch = qs(`.clear.search`);
 const searchArtist = qs('.search.artist'); // radio buttons
 const searchAlbum = qs('.search.album');
 const searchSong = qs('.search.song');
@@ -61,14 +62,16 @@ class MusicPlayer {
     });
     audio.addEventListener('ended', () => this.nextTrack());
 
-    searchText.addEventListener('keyup', () => {
-      this.search();
-    });
-
-    // search controls
+    searchText.addEventListener('keyup', () => this.search());
     searchArtist.addEventListener('change', () => this.search());
     searchAlbum.addEventListener('change', () => this.search());
     searchSong.addEventListener('change', () => this.search());
+    clearSearch.addEventListener('click', () => this.clearSearch());
+  }
+
+  clearSearch(){
+    searchText.value = "";
+    this.search();
   }
 
   toggleShuffling(){
