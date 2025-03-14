@@ -2,51 +2,52 @@ html, body {
   margin: 0;
   border: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 main {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  margin: 25px;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.left {
+div.left {
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-fieldset.search {
-  border: 2px dashed orangered;
-  background-color: white;
-  position: sticky;
-  top: 25px;
-  align-self: flex-start;
+div.right {
+  height: min-content;
+  overflow: hidden;
+  border: 1px dotted orangered;
 }
 
-legend {
-  background-color: white;
+/* Search, Playlist*/
+fieldset.search-container, fieldset.playlist-container {
+  border: 1px dotted orangered; 
+  padding: 5px;
+  margin: 25px;
+  background: white;
 }
 
-fieldset.search > legend {
-  border: 2px dashed orangered;
-  padding: 3px 6px;
+fieldset.playlist-container {
+  flex: 1 1 grow;
+  overflow: hidden;
 }
 
+legend.search-legend, legend.playlist-legend {
+  background: white;
+}
+
+/* Search textbox */
 input.search.text {
   border: none;
   border-bottom: 1px solid black;
   box-shadow: none;
   text-shadow: none;
 }
-
 input.search.text:focus {
   border: none;
   border-bottom: 1px solid orange;
@@ -55,68 +56,75 @@ input.search.text:focus {
   outline: none;
 }
 
-/* playlist */
-fieldset.playlist-container {
+/* Playlist */
+ol.playlist {
+  scroll-padding-top: 25px;
   margin-top: 25px;
-  position: sticky;
-  top: 116px;
-  bottom: 25px;
-  border: 2px dashed orangered;
-  background-color: white;
-  width: 100%;
-  padding-right: 25px;
-  overflow-y: auto;
-}
-
-legend.playlist-legend {
-  background-color: white;
-  border: 2px dashed orangered;
-  padding: 3px 6px;
-}
-
-.playlist {
   list-style: none;
-  padding: 0;
+  height: 100%;
+  overflow-y: scroll;
+  padding-left: 2px;
+}
+
+li.entry:first-child {
   margin-top: 25px;
 }
 
-.playlist>*:nth-child(even){
-  background-color: rgb(231, 231, 231);
+li.entry:nth-child(2n - 1) {
+  background-color: lightgray;
 }
 
-.middle {
-  position: sticky;
-  top: 25px;
-  margin-left: 25px;
-  align-self: flex-start;
+/* Right side */
+fieldset.outputs-container, 
+fieldset.controls-container, 
+fieldset.menu-container {
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
 }
 
+fieldset > legend {
+  border: 1px dotted orangered;
+  padding: 5px;
+}
+
+/* Controls */
+fieldset.controls-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+button.control {
+  width: 35px;
+  height: 35px;
+  border: none;
+  background-size: contain;
+  background-color: white;
+  background-repeat: no-repeat;
+}
+
+button.control.previous { background-image: url('./img/previous.png'); }
+button.control.play     { background-image: url('./img/play.png'); }
+button.control.pause    { background-image: url('./img/pause.png'); }
+button.control.next     { background-image: url('./img/next.png'); }
+button.control.shuffle  { background-image: url('./img/shuffle.png'); }
+button.control.shuffle.active {
+  box-shadow: inset 0px 0px 5px orangered;
+}
+
+/* Outputs */
 img.album-cover {
   width: 350px;
   height: 350px;
 }
 
-fieldset.outputs {
-  margin: 0;
-  border: 0;
-  padding: 0;
+fieldset.outputs-container {
   width: 350px;
-}
-
-fieldset.controls {
-  margin: 0;
-  border: 0;
-  padding: 0;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  width: 350px;
-}
-
-.control.hide {
-  display: none;
 }
 
 .progress {
@@ -125,70 +133,20 @@ fieldset.controls {
   padding: 0;
 }
 
-.right {
-  position: sticky;
-  top: 25px;
-  align-self: flex-start;
+/* Menu */
+fieldset.menu-container {
+
 }
 
-.menu.view {
-  position: absolute;
-  width: 200px;
-  height: min-content;
-  border: 1px solid red;
-  right: 35px;
-  top: 75px;
-  z-index: 10;
-}
-
-.menu.view {
-  display: block;
-  background-color: #fff;
-  padding: 10px;
-}
-
-.menu.view.hide {
-  display: none;
-}
-
-button {
-  background-color: rgba(0, 0, 0, 0.0);
+button.toggle.menu {
+  width: 35px;
+  height: 35px;
   border: none;
+  background-color: white;
   color: orangered;
   font-size: 26px;
 }
 
-button.control {
-  width: 35px;
-  height: 35px;
-  background-size: contain;
-}
-
-button.control.previous {
-  background-image: url('./img/previous.png');
-}
-
-button.control.play {
-  background-image: url('./img/play.png');
-}
-
-button.control.pause {
-  background-image: url('./img/pause.png');
-}
-
-button.control.next {
-  background-image: url('./img/next.png');
-}
-
-button.control.shuffle {
-  background-image: url('./img/shuffle.png');
-}
-
-button.control.shuffle.active {
-  box-shadow: inset 0px 0px 5px orangered;
-}
-
-.time-overview {
-  clear: both;
-  float: right;
+.hide {
+  display: none;
 }

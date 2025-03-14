@@ -10,8 +10,8 @@
   <body>
     <main>
       <div class="left">
-        <fieldset class="search">
-          <legend class="search legend">Search:</legend>
+        <fieldset class="search-container">
+          <legend class="search-legend">Search:</legend>
 
           <label class="clear search">x</label>
 
@@ -52,8 +52,8 @@
           </ol>
         </fieldset>
       </div>
-      <div class="middle">
-        <fieldset class="outputs">
+      <div class="right">
+        <fieldset class="outputs-container">
           <audio class="track"></audio>
           <img class="album-cover" src="./img/Initial Cover.jpg" />
           <output class="current album"></output>
@@ -61,7 +61,8 @@
           <output class="current song"></output><br>
           <output class="time-overview"></output>
         </fieldset>
-        <fieldset class="controls">
+
+        <fieldset class="controls-container">
           <button class="control previous"></button>
           <button class="control play"></button>
           <button class="control pause" hidden="true"></button>
@@ -69,12 +70,13 @@
           <button class="control shuffle"></button>
           <progress class="progress" value="0" max="100"></progress>
         </fieldset>
-      </div>
-      <div class="right">
-        <button class="toggle menu">...</button>
-        <div class="menu view hide">
-          <p class="menu open">Open Folder ...</p>
-        </div>
+
+        <fieldset class="menu-container">
+          <button class="toggle menu">...</button>
+          <div class="menu view hide">
+            <p class="menu open">Open Folder ...</p>
+          </div>
+        </fieldset>
       </div>
     </main>
 

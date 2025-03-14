@@ -244,6 +244,7 @@ class MusicPlayer {
         entry.innerText = entry.dataset.label;
       }
 
+      entry.classList.add('entry');
       entry.addEventListener('dblclick', () => this.#playTrack(entry));
       playlist.appendChild(entry);
     }
@@ -257,9 +258,7 @@ class MusicPlayer {
         const track = playlist.children[0];
         this.#playTrack(track);
       }
-    }
-
-    if(this.#paused){
+    }else{
       this.continueTrack();
     }
   }
