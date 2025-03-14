@@ -20,6 +20,8 @@ div.left {
 
 div.right {
   margin-top: 25px;
+  margin-right: 25px;
+  min-width: 350px;
   height: min-content;
   overflow: hidden;
   border: 1px dotted orangered;
@@ -33,9 +35,15 @@ fieldset.search-container, fieldset.playlist-container {
   background: white;
 }
 
+fieldset.search-container {
+  width: max-content;
+  padding-bottom: 15px;
+}
+
 fieldset.playlist-container {
   flex: 1 1 grow;
   overflow: hidden;
+  max-width: 650px;
 }
 
 legend.search-legend, legend.playlist-legend {
@@ -60,7 +68,6 @@ input.search.text:focus {
 /* Playlist */
 ol.playlist {
   scroll-padding-top: 25px;
-  margin-top: 25px;
   list-style: none;
   height: 100%;
   overflow-y: scroll;
@@ -128,10 +135,22 @@ fieldset.outputs-container {
   width: 350px;
 }
 
+/* Progress */
+fieldset.progress-container {
+  border: none;
+}
+
 .progress {
   margin: 0;
   border: 0;
   padding: 0;
+  height: 20px;
+  width: 100%;
+}
+
+.time-overview {
+  clear: both;
+  float: right;
 }
 
 /* Menu */
