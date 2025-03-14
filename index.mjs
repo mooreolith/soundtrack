@@ -130,10 +130,13 @@ class MusicPlayer {
                   const tags = result.tags;
                   const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
+                  console.debug('track', tags.TPOS)
+
                   file.label  = label;
                   file.artist = tags.artist;
                   file.year   = tags.year;
                   file.album  = tags.album;
+                  file.cd     = tags.TPOS?.data;
                   file.track  = tags.track;
                   file.title  = tags.title;
                   
@@ -181,6 +184,7 @@ class MusicPlayer {
   }
 
   sortingFn(a, b){
+    console.log(a.disc, b.disc)
     if(a.artist !== b.artist){
       if(a.artist < b.artist) return -1;
       if(a.artist > b.artist) return 1;
@@ -191,6 +195,14 @@ class MusicPlayer {
     if(a.album !== b.album){
       if(a.album < b.album) return -1;
       if(a.album > b.album) return 1;
+    }
+    if(a.cd !== b.cd){
+      try{
+        return parseInt(a.cd) - parseInt(b.cd);
+      }catch(_){
+        if(a.cd < b.cd) return -1;
+        if(a.cd > b.cd) return 1;
+      }
     }
     if(a.track !== b.track){
       return parseInt(a.track) - parseInt(b.track);
@@ -208,13 +220,14 @@ class MusicPlayer {
     for(const file of this.#current){
       const entry = document.createElement('li');
 
-      entry.dataset.label = file.label;
-      entry.dataset.artist = file.artist;
-      entry.dataset.year = file.year;
-      entry.dataset.album = file.album;
-      entry.dataset.track = file.track;
-      entry.dataset.title = file.title;
-      file.currentIndex = playlist.children.length
+      entry.dataset.label   = file.label;
+      entry.dataset.artist  = file.artist;
+      entry.dataset.year    = file.year;
+      entry.dataset.album   = file.album;
+      entry.dataset.cd      = file.cd;
+      entry.dataset.track   = file.track;
+      entry.dataset.title   = file.title;
+      file.currentIndex     = playlist.children.length
       entry.dataset.currentIndex = playlist.children.length;
       entry.dataset.loadedIndex = file.loadedIndex;
 
