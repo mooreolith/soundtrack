@@ -24,12 +24,12 @@ div.right {
   min-width: 350px;
   height: min-content;
   overflow: hidden;
-  border: 1px dotted orangered;
+  border: 2px dotted orangered;
 }
 
 /* Search, Playlist*/
 fieldset.search-container, fieldset.playlist-container {
-  border: 1px dotted orangered; 
+  border: 2px dotted orangered; 
   padding: 5px;
   margin: 25px;
   background: white;
@@ -92,7 +92,7 @@ fieldset.menu-container {
 }
 
 fieldset > legend {
-  border: 1px dotted orangered;
+  border: 2px dotted orangered;
   padding: 5px;
 }
 
