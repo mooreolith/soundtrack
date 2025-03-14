@@ -19,6 +19,7 @@ div.left {
 }
 
 div.right {
+  margin-top: 25px;
   height: min-content;
   overflow: hidden;
   border: 1px dotted orangered;
