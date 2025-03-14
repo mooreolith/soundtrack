@@ -51,6 +51,11 @@ class MusicPlayer {
     next.addEventListener('click', () => this.nextTrack());
     shuffle.addEventListener('click', () => this.toggleShuffling());
 
+    navigator.mediaSession.setActionHandler('play', () => this.play());
+    navigator.mediaSession.setActionHandler('pause', () => this.pauseTrack());
+    navigator.mediaSession.setActionHandler('previoustrack', () => this.previousTrack());
+    navigator.mediaSession.setActionHandler('nexttrack', () => this.nextTrack());
+
     audio.addEventListener('durationchange', () => audio.duration ? progress.max = audio.duration : null);
     audio.addEventListener('timeupdate', () => {
       progress.value = audio.currentTime;
