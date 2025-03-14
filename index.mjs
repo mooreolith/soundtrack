@@ -283,7 +283,7 @@ class MusicPlayer {
       }
       imgReader.readAsDataURL(coverFile);
     }catch(e){
-      albumCover.src = './Initial Cover.jpg';
+      albumCover.src = './img/Initial Cover.jpg';
     }
   }
 
