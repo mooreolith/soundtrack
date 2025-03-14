@@ -186,8 +186,8 @@ class MusicPlayer {
 
   sortingFn(a, b){
     if(a.artist !== b.artist){
-      if(a.artist < b.artist) return -1;
-      if(a.artist > b.artist) return 1;
+      if(a.artist.toLowerCase() < b.artist.toLowerCase()) return -1;
+      if(a.artist.toLowerCase() > b.artist.toLowerCase()) return 1;
     }
     if(a.year !== b.year){
       return parseInt(a.year) - parseInt(b.year);
@@ -367,7 +367,9 @@ class MusicPlayer {
       ntn = Math.floor(Math.random() * this.#current.length);
     }
     const nextTrack = playlist.querySelector(`li[data-current-index="${ntn}"]`);
-    if(next) this.#playTrack(nextTrack);
+
+    if(this.#shuffling) nextTrack.scrollIntoView({block: "start", inline: "nearest", behavior: 'smooth'})
+    this.#playTrack(nextTrack);
   }
 
   toggleMenu(){

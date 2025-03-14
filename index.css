@@ -2,6 +2,8 @@ html, body {
   margin: 0;
   border: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 * {
@@ -13,11 +15,16 @@ main {
   flex-direction: row;
   justify-content: space-around;
   margin: 25px;
+  height: 100%;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
 }
 
 fieldset.search {
-  border: 1px dashed orangered;
-  width: max-content;
+  border: 2px dashed orangered;
   background-color: white;
   position: sticky;
   top: 25px;
@@ -29,7 +36,7 @@ legend {
 }
 
 fieldset.search > legend {
-  border: 1px dashed orangered;
+  border: 2px dashed orangered;
   padding: 3px 6px;
 }
 
@@ -48,6 +55,25 @@ input.search.text:focus {
   outline: none;
 }
 
+/* playlist */
+fieldset.playlist-container {
+  margin-top: 25px;
+  position: sticky;
+  top: 116px;
+  bottom: 25px;
+  border: 2px dashed orangered;
+  background-color: white;
+  width: 100%;
+  padding-right: 25px;
+  overflow-y: auto;
+}
+
+legend.playlist-legend {
+  background-color: white;
+  border: 2px dashed orangered;
+  padding: 3px 6px;
+}
+
 .playlist {
   list-style: none;
   padding: 0;
@@ -61,6 +87,7 @@ input.search.text:focus {
 .middle {
   position: sticky;
   top: 25px;
+  margin-left: 25px;
   align-self: flex-start;
 }
 
