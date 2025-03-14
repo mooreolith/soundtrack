@@ -79,7 +79,7 @@ li.entry:first-child {
 }
 
 li.entry:nth-child(2n - 1) {
-  background-color: lightgray;
+  background-color: rgb(231, 231, 231);
 }
 
 /* Right side */
