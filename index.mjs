@@ -179,6 +179,9 @@ class MusicPlayer {
       .sort(this.sortingFn);
     this.#currentIndex = this.#current.indexOf(currentlyPlaying) ?? 0;      
     this.#updatePlaylist();
+    playlist
+      .querySelector(`[data-current-index="${this.#currentIndex}"]`)
+      ?.scrollIntoView({block: "start", inline: "nearest", behavior: 'smooth'});
   }
 
   sortingFn(a, b){
@@ -217,6 +220,7 @@ class MusicPlayer {
   }
 
   #updatePlaylist(){
+    let current;
     playlist.innerHTML = '';
     let i = 0;
     for(const file of this.#current){
@@ -235,6 +239,7 @@ class MusicPlayer {
 
       if(entry.dataset.loadedIndex == this.#loadedIndex){
         entry.innerText = `${this.#paused ? '⏸︎' : '⏵︎'}${entry.dataset.label}`;
+        current = entry;
       }else{
         entry.innerText = entry.dataset.label;
       }
@@ -242,6 +247,8 @@ class MusicPlayer {
       entry.addEventListener('dblclick', () => this.#playTrack(entry));
       playlist.appendChild(entry);
     }
+
+    current.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
   }
 
   play(){

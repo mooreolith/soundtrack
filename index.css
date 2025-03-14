@@ -36,15 +36,15 @@ fieldset.search > legend {
 input.search.text {
   border: none;
   border-bottom: 1px solid black;
-  box-shadow: 0;
-  text-shadow: 0;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 input.search.text:focus {
   border: none;
   border-bottom: 1px solid orange;
-  box-shadow: 0;
-  text-shadow: 0;
+  box-shadow: none;
+  text-shadow: none;
   outline: none;
 }
 
