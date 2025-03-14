@@ -160,3 +160,8 @@ button.control.shuffle {
 button.control.shuffle.active {
   box-shadow: inset 0px 0px 5px orangered;
 }
+
+.time-overview {
+  clear: both;
+  float: right;
+}
