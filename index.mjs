@@ -130,8 +130,6 @@ class MusicPlayer {
                   const tags = result.tags;
                   const label = `${tags.artist ? `${tags.artist}` : "Unknown Artist"}${tags.album ? ` - ${tags.album}` : ""}${tags.track ? ` - ${tags.track}` : ""}${tags.title ? ` - ${tags.title}` : " - Unknown Song"}`;
 
-                  console.debug('track', tags.TPOS)
-
                   file.label  = label;
                   file.artist = tags.artist;
                   file.year   = tags.year;
@@ -184,7 +182,6 @@ class MusicPlayer {
   }
 
   sortingFn(a, b){
-    console.log(a.disc, b.disc)
     if(a.artist !== b.artist){
       if(a.artist < b.artist) return -1;
       if(a.artist > b.artist) return 1;
@@ -205,7 +202,12 @@ class MusicPlayer {
       }
     }
     if(a.track !== b.track){
-      return parseInt(a.track) - parseInt(b.track);
+      try{
+        return parseInt(a.track) - parseInt(b.track);
+      }catch(_){
+        if(a.track < b.track) return -1;
+        if(a.track > b.track) return 1;
+      }
     }
     if(a.title !== b.title){
       if(a.title < b.title) return -1;
@@ -238,7 +240,7 @@ class MusicPlayer {
       }
 
       entry.addEventListener('dblclick', () => this.#playTrack(entry));
-      playlist.appendChild(entry);      
+      playlist.appendChild(entry);
     }
   }
 
@@ -268,7 +270,7 @@ class MusicPlayer {
 
     this.#currentIndex = parseInt(entry.dataset.currentIndex);
     this.#loadedIndex = parseInt(entry.dataset.loadedIndex);
-    
+
     // set currentSong()
     this.setCurrentSong(entry);
 
