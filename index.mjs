@@ -72,6 +72,13 @@ class MusicPlayer {
     searchAlbum.addEventListener('change', () => this.search());
     searchSong.addEventListener('change', () => this.search());
     clearSearch.addEventListener('click', () => this.clearSearch());
+
+    progress.addEventListener('click', (e) => {
+      const width = progress.offsetWidth;
+      const click = e.offsetX;
+      const fraction = click / width;
+      audio.currentTime = audio.duration * fraction;
+    })
   }
 
   clearSearch(){
