@@ -248,7 +248,7 @@ class MusicPlayer {
       playlist.appendChild(entry);
     }
 
-    current.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
+    current?.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
   }
 
   play(){
