@@ -42,9 +42,9 @@ fieldset.search-container {
 }
 
 fieldset.playlist-container {
-  flex: 1 1 grow;
+  flex: 1 1 auto;
   overflow: hidden;
-  max-width: 650px;
+  margin-bottom: 25px;
 }
 
 legend.search-legend, legend.playlist-legend {
@@ -155,9 +155,7 @@ fieldset.progress-container {
 }
 
 /* Menu */
-fieldset.menu-container {
-
-}
+/*fieldset.menu-container {}*/
 
 button.toggle.menu {
   width: 35px;
@@ -170,4 +168,8 @@ button.toggle.menu {
 
 .hide {
   display: none;
+}
+
+.current.entry {
+  border: 2px dotted #00beef;
 }
