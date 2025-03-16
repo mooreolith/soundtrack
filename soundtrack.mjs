@@ -87,8 +87,8 @@ class App {
     }
 
     navigator.mediaSession.setActionHandler('previoustrack', () => this.#playlist.previousTrack());
-    navigator.mediaSession.setActionHandler('play',          () => this.#playlist.playTrack());
-    navigator.mediaSession.setActionHandler('pause',         () => this.#playlist.pause());
+    navigator.mediaSession.setActionHandler('play',          () => this.#playlist.play());
+    navigator.mediaSession.setActionHandler('pause',         () => this.#playlist.pauseTrack());
     navigator.mediaSession.setActionHandler('nexttrack',     () => this.#playlist.nextTrack());
 
     this.#ui.toggleMenu.onclick = () => qs('.menu.view').classList.toggle('hide');
@@ -168,22 +168,16 @@ class Playlist {
     switch(this.currentTrack?.state){
       case 'paused':
         this.currentTrack.continue();
-        this.ui.controls.play.hidden = false;
-        this.ui.controls.pause.hidden = true;
         break;
 
       case 'playing':
         this.currentTrack.pause();
-        this.ui.controls.play.hidden = true;
-        this.ui.controls.pause.hidden = false;
         break;
 
       default:
         const currentEntry = this.ui.playlist.firstElementChild;
         const currentTrack = this.#tracks[currentEntry.dataset.trackIndex]
         this.playTrack(currentTrack);
-        this.ui.controls.play.hidden = true;
-        this.ui.controls.pause.hidden = false;
         break;
     }
   }
@@ -419,8 +413,6 @@ class Track {
   }
 
   continue(){
-    this.ui.controls.play.hidden = true;
-    this.ui.controls.pause.hidden = false;
     this.#playlist.ui.outputs.audio.play();
     this.state = Track.STATES.playing;
   }
@@ -456,8 +448,15 @@ class Track {
   set state(s){
     this.#state = s;
     const entry = this.entry;
-    if(s === Track.STATES.playing) entry.classList.add('current');
-    else entry.classList.remove('current');
+    if(s === Track.STATES.playing){
+      entry.classList.add('current');
+      this.#playlist.ui.controls.play.hidden = true;
+      this.#playlist.ui.controls.pause.hidden = false;
+    }else{
+      entry.classList.remove('current');
+      this.#playlist.ui.controls.play.hidden = false;
+      this.#playlist.ui.controls.pause.hidden = true;
+    }
   }
 
   get state(){
