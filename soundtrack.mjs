@@ -39,8 +39,8 @@ class App {
       progress: qs('.progress')
     },
     time:       qs('.time-overview'),
-    toggleMenu:       qs('.toggle.menu'),
-    menuOpens:   qsa('.menu.open')
+    toggleMenu: qs('.toggle.menu'),
+    menuOpens:  qsa('.menu.open')
   };
 
   #playlist = new Playlist(this.#ui);
@@ -203,6 +203,8 @@ class Playlist {
   }
 
   nextTrack(){
+    this.#shuffling = this.ui.controls.shuffle.classList.contains('active');
+    
     this.currentTrack?.stop();
     let nextIndex;
 
@@ -259,9 +261,9 @@ class Playlist {
   }
 
   async addTrack(file){
-    const track = new Track(++this.#newId, file, this);
-    await track.readTags();
+    const track = new Track(this.#tracks.length, file, this);
     this.#tracks.push(track);
+    await track.readTags();
     return track;
   }
 
