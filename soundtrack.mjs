@@ -24,6 +24,7 @@ class App {
     playlist:   qs('.playlist'),
     outputs: {
       audio:    qs('.track'),
+      cover:    qs('.album-cover'),
       artist:   qs('.current.artist'),
       album:    qs('.current.album'),
       cd:       qs('.current.cd'),
@@ -194,6 +195,13 @@ class Playlist {
     this.currentTrack?.stop();
     track?.play();
     this.currentTrack = track;
+    const path = this.currentTrack?.file.webkitRelativePath.split('/').slice(0, -1).join('/');
+    
+    const coverReader = new FileReader;
+    coverReader.onload = () => {
+      this.ui.outputs.cover.src = coverReader.result;
+    }
+    coverReader.readAsDataURL(this.#albumCovers.get(path));
   }
 
   pauseTrack(){
@@ -352,7 +360,7 @@ class Track {
   id = null
   #playlist = null;
 
-  #file = null;
+  file = null;
   #tagReader = window.jsmediatags;
   tags = null;
   #state = Track.STATES.stopped; // | "playing" | "paused"
@@ -362,7 +370,7 @@ class Track {
 
   constructor(id, file, playlist){
     this.id = id;
-    this.#file = file;
+    this.file = file;
     this.#playlist = playlist;
   }
 
@@ -376,7 +384,7 @@ class Track {
         this.state = Track.STATES.playing;
         this.setInfo();
       };
-      trackReader.readAsDataURL(this.#file);
+      trackReader.readAsDataURL(this.file);
     }else if(this.state === Track.STATES.paused){
       this.continue();
     }
@@ -423,7 +431,7 @@ class Track {
 
   async readTags(){
     this.tags = await new Promise((resolve, reject) => {
-      this.#tagReader.read(this.#file, { 
+      this.#tagReader.read(this.file, { 
         onSuccess: (result) => resolve(result.tags), 
         onError: (err) => reject(err)
       });
