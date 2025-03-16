@@ -395,7 +395,8 @@ class Track {
     this.#playlist.ui.outputs.album.value   = ``;
     this.#playlist.ui.outputs.cd            = ``;
     this.#playlist.ui.outputs.track.value   = ``;
-    this.#playlist.ui.outputs.song.value    = ``;   
+    this.#playlist.ui.outputs.song.value    = ``; 
+    document.title = "Soundtrack";  
   }
 
   setInfo(){
@@ -409,6 +410,7 @@ class Track {
 
     this.#playlist.ui.outputs.artist.onclick = () => this.#playlist.setFilter(this.tags.artist, 'artist');
     this.#playlist.ui.outputs.album.onclick  = () => this.#playlist.setFilter(this.tags.album, 'album');
+    document.title = `${this.state === Track.STATES.paused ? '⏸︎ ' : ''}${this.tags.title}` ?? 'Soundtrack';
   }
 
   pause(){
