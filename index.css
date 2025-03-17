@@ -4,172 +4,271 @@ html, body {
   padding: 0;
 }
 
-main {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  overflow: hidden;
+body {
+  padding-bottom: 20px;
+  overflow-x: hidden;
 }
 
-div.left {
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+@media (min-width: 768px){
+  main {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  div.left {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  div.right {
+    margin-top: 25px;
+    margin-right: 25px;
+    min-width: 350px;
+    height: min-content;
+    overflow: hidden;
+    border: 2px dotted orangered;
+  }
+
+  /* Search, Playlist*/
+  fieldset.search-container, fieldset.playlist-container {
+    border: 2px dotted orangered; 
+    padding: 5px;
+    margin: 25px;
+    margin-bottom: 0px;
+    background: white;
+  }
+
+  fieldset.search-container {
+    width: max-content;
+    padding-bottom: 15px;
+  }
+
+  fieldset.playlist-container {
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-bottom: 25px;
+  }
+
+  legend.search-legend, legend.playlist-legend {
+    background: white;
+  }
+
+  /* Search textbox */
+  input.search.text {
+    border: none;
+    border-bottom: 1px solid black;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  input.search.text:focus {
+    border: none;
+    border-bottom: 1px solid orange;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+  }
+
+  /* Playlist */
+  ol.playlist {
+    scroll-padding-top: 25px;
+    list-style: none;
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 2px;
+  }
+
+  li.entry:first-child {
+    margin-top: 25px;
+  }
+
+  li.entry:nth-child(2n - 1) {
+    background-color: rgb(231, 231, 231);
+  }
+
+  /* Right side */
+  fieldset.outputs-container, 
+  fieldset.controls-container, 
+  fieldset.menu-container {
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+  }
+
+  fieldset > legend {
+    border: 2px dotted orangered;
+    padding: 5px;
+  }
+
+  /* Controls */
+  fieldset.controls-container {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .break {
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  button.control {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-size: contain;
+    background-color: white;
+    background-repeat: no-repeat;
+  }
+
+  button.control.previous { background-image: url('./img/previous.png'); }
+  button.control.play     { background-image: url('./img/play.png'); }
+  button.control.pause    { background-image: url('./img/pause.png'); }
+  button.control.next     { background-image: url('./img/next.png'); }
+  button.control.shuffle  { background-image: url('./img/shuffle.png'); }
+  button.control.shuffle.active {
+    box-shadow: inset 0px 0px 5px orangered;
+  }
+
+  /* Outputs */
+  img.album-cover {
+    width: 350px;
+    height: 350px;
+  }
+
+  fieldset.outputs-container {
+    width: 350px;
+  }
+
+  /* Progress */
+  fieldset.progress-container {
+    border: none;
+  }
+
+  .progress {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    height: 20px;
+    width: 100%;
+  }
+
+  .time-overview {
+    clear: both;
+    float: right;
+  }
+
+  /* Menu */
+  /*fieldset.menu-container {}*/
+
+  button.toggle.menu {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: white;
+    color: orangered;
+    font-size: 26px;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .current.entry {
+    border: 2px dotted #00beef;
+  }
 }
 
-div.right {
-  margin-top: 25px;
-  margin-right: 25px;
-  min-width: 350px;
-  height: min-content;
-  overflow: hidden;
-  border: 2px dotted orangered;
-}
+@media (max-width: 768px) {
+  .right { order: 1; }
+  .left { order: 2; }
+  main {
+    display: flex;
+    flex-direction: column;
+  }
 
-/* Search, Playlist*/
-fieldset.search-container, fieldset.playlist-container {
-  border: 2px dotted orangered; 
-  padding: 5px;
-  margin: 25px;
-  margin-bottom: 0px;
-  background: white;
-}
+  button.control {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-size: contain;
+    background-color: white;
+    background-repeat: no-repeat;
+  }
 
-fieldset.search-container {
-  width: max-content;
-  padding-bottom: 15px;
-}
+  button.control.previous { background-image: url('./img/previous.png'); }
+  button.control.play     { background-image: url('./img/play.png'); }
+  button.control.pause    { background-image: url('./img/pause.png'); }
+  button.control.next     { background-image: url('./img/next.png'); }
+  button.control.shuffle  { background-image: url('./img/shuffle.png'); }
+  button.control.shuffle.active { box-shadow: inset 0px 0px 5px orangered; }
 
-fieldset.playlist-container {
-  flex: 1 1 auto;
-  overflow: hidden;
-  margin-bottom: 25px;
-}
+  fieldset.search-container, fieldset.playlist-container {
+    border: 2px dotted orangered; 
+    padding: 5px;
+    margin: 25px;
+    margin-bottom: 0px;
+    background: white;
+  }
 
-legend.search-legend, legend.playlist-legend {
-  background: white;
-}
+  .controls-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly
+  }
 
-/* Search textbox */
-input.search.text {
-  border: none;
-  border-bottom: 1px solid black;
-  box-shadow: none;
-  text-shadow: none;
-}
-input.search.text:focus {
-  border: none;
-  border-bottom: 1px solid orange;
-  box-shadow: none;
-  text-shadow: none;
-  outline: none;
-}
+  .outputs-container, 
+  .controls-container, 
+  .progress-container,
+  .menu-container {
+    border: none;
+  }
 
-/* Playlist */
-ol.playlist {
-  scroll-padding-top: 25px;
-  list-style: none;
-  height: 100%;
-  overflow-y: scroll;
-  padding-left: 2px;
-}
+  fieldset.progress-container {
+    border: none;
+  }
 
-li.entry:first-child {
-  margin-top: 25px;
-}
+  .progress {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    height: 20px;
+    width: 100%;
+  }
 
-li.entry:nth-child(2n - 1) {
-  background-color: rgb(231, 231, 231);
-}
+  .time-overview {
+    clear: both;
+    float: right;
+  }
 
-/* Right side */
-fieldset.outputs-container, 
-fieldset.controls-container, 
-fieldset.menu-container {
-  border: none;
-  box-shadow: none;
-  text-shadow: none;
-}
+  button.toggle.menu {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: white;
+    color: orangered;
+    font-size: 26px;
+  }
 
-fieldset > legend {
-  border: 2px dotted orangered;
-  padding: 5px;
-}
+  .hide {
+    display: none;
+  }
 
-/* Controls */
-fieldset.controls-container {
-  display: flex;
-  justify-content: space-evenly;
-}
+  ol.playlist {
+    scroll-padding-top: 25px;
+    list-style: none;
+    height: 85vh;
+    overflow-y: scroll;
+    padding-left: 2px;
+  }
 
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
+  li.entry:nth-child(2n - 1) {
+    background-color: rgb(231, 231, 231);
+  }
 
-button.control {
-  width: 35px;
-  height: 35px;
-  border: none;
-  background-size: contain;
-  background-color: white;
-  background-repeat: no-repeat;
-}
-
-button.control.previous { background-image: url('./img/previous.png'); }
-button.control.play     { background-image: url('./img/play.png'); }
-button.control.pause    { background-image: url('./img/pause.png'); }
-button.control.next     { background-image: url('./img/next.png'); }
-button.control.shuffle  { background-image: url('./img/shuffle.png'); }
-button.control.shuffle.active {
-  box-shadow: inset 0px 0px 5px orangered;
-}
-
-/* Outputs */
-img.album-cover {
-  width: 350px;
-  height: 350px;
-}
-
-fieldset.outputs-container {
-  width: 350px;
-}
-
-/* Progress */
-fieldset.progress-container {
-  border: none;
-}
-
-.progress {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  height: 20px;
-  width: 100%;
-}
-
-.time-overview {
-  clear: both;
-  float: right;
-}
-
-/* Menu */
-/*fieldset.menu-container {}*/
-
-button.toggle.menu {
-  width: 35px;
-  height: 35px;
-  border: none;
-  background-color: white;
-  color: orangered;
-  font-size: 26px;
-}
-
-.hide {
-  display: none;
-}
-
-.current.entry {
-  border: 2px dotted #00beef;
+  .current.entry {
+    border: 2px dotted #00beef;
+  }
 }
