@@ -179,6 +179,10 @@ body {
   .current.entry {
     border: 2px dotted #00beef;
   }
+
+  .desktop-hide {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -187,6 +191,15 @@ body {
   main {
     display: flex;
     flex-direction: column;
+  }
+
+  .album-cover {
+    width: 100%;
+    height: auto;
+  }
+
+  .desktop-hide {
+    display: unset;
   }
 
   button.control {
