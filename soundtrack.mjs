@@ -22,7 +22,7 @@ class App {
       }
     },
     playlist:   qs('.playlist'),
-    outputs: {
+    current: {
       audio:    qs('.track'),
       cover:    qs('.album-cover'),
       artist:   qs('.current.artist'),
@@ -47,7 +47,7 @@ class App {
   #playlist = new Playlist(this.#ui);
 
   constructor(){
-    const audio = this.#ui.outputs.audio;
+    const audio = this.#ui.current.audio;
     const progress = this.#ui.controls.progress;
 
     audio.addEventListener('ended', () => {
@@ -83,7 +83,7 @@ class App {
       const width = e.target.offsetWidth;
       const click = e.offsetX;
       const fraction = click / width;
-      this.#ui.outputs.audio.currentTime = audio.duration * fraction;
+      this.#ui.current.audio.currentTime = audio.duration * fraction;
     }
 
     navigator.mediaSession.setActionHandler('previoustrack', () => this.#playlist.previousTrack());
@@ -155,7 +155,7 @@ class Playlist {
   }
 
   previousTrack(){
-    const audio = this.ui.outputs.audio;
+    const audio = this.ui.current.audio;
     if(audio.currentTime >= 1.0) audio.currentTime = 0;
     else{
       this.currentTrack?.stop();
@@ -193,7 +193,7 @@ class Playlist {
     
     const coverReader = new FileReader;
     coverReader.onload = () => {
-      this.ui.outputs.cover.src = coverReader.result;
+      this.ui.current.cover.src = coverReader.result;
     }
     coverReader.readAsDataURL(this.#albumCovers.get(path));
   }
@@ -373,8 +373,8 @@ class Track {
       const trackReader = new FileReader();
       trackReader.onload = () => {
         this.#playlist.ui.controls.progress.value = 0.0;
-        this.#playlist.ui.outputs.audio.src = trackReader.result;
-        this.#playlist.ui.outputs.audio.play();
+        this.#playlist.ui.current.audio.src = trackReader.result;
+        this.#playlist.ui.current.audio.play();
         this.state = Track.STATES.playing;
         this.setInfo();
       };
@@ -385,41 +385,41 @@ class Track {
   }
 
   resetInfo(){
-    this.#playlist.ui.outputs.artist.value  = ``;
-    this.#playlist.ui.outputs.album.value   = ``;
-    this.#playlist.ui.outputs.cd.value      = ``;
-    this.#playlist.ui.outputs.track.value   = ``;
-    this.#playlist.ui.outputs.song.value    = ``; 
+    this.#playlist.ui.current.artist.value  = ``;
+    this.#playlist.ui.current.album.value   = ``;
+    this.#playlist.ui.current.cd.value      = ``;
+    this.#playlist.ui.current.track.value   = ``;
+    this.#playlist.ui.current.song.value    = ``; 
     document.title = "Soundtrack";  
   }
 
   setInfo(){
     this.resetInfo();
     const cd = this.tags.TPOS?.data;
-    this.#playlist.ui.outputs.artist.value  = this.tags.artist ?? `Unknown Artist`;
-    this.#playlist.ui.outputs.album.value   = this.tags.album ? `- ${this.tags.album}` : ` - Unknown Album`;
-    this.#playlist.ui.outputs.cd.value      = cd ? ` - ${cd}` : ``;
-    this.#playlist.ui.outputs.track.value   = this.tags.track ? ` - ${this.tags.track}` : ``;
-    this.#playlist.ui.outputs.song.value    = this.tags.title ? `- ${this.tags.title}` : ` - Unknown Title`;
+    this.#playlist.ui.current.artist.value  = this.tags.artist ?? `Unknown Artist`;
+    this.#playlist.ui.current.album.value   = this.tags.album ? `- ${this.tags.album}` : ` - Unknown Album`;
+    this.#playlist.ui.current.cd.value      = cd ? ` - ${cd}` : ``;
+    this.#playlist.ui.current.track.value   = this.tags.track ? ` - ${this.tags.track}` : ``;
+    this.#playlist.ui.current.song.value    = this.tags.title ? `- ${this.tags.title}` : ` - Unknown Title`;
 
-    this.#playlist.ui.outputs.artist.onclick = () => this.#playlist.setFilter(this.tags.artist, 'artist');
-    this.#playlist.ui.outputs.album.onclick  = () => this.#playlist.setFilter(this.tags.album, 'album');
+    this.#playlist.ui.current.artist.onclick = () => this.#playlist.setFilter(this.tags.artist, 'artist');
+    this.#playlist.ui.current.album.onclick  = () => this.#playlist.setFilter(this.tags.album, 'album');
     document.title = `${this.state === Track.STATES.paused ? '⏸︎ ' : ''}${this.tags.title}` ?? 'Soundtrack';
   }
 
   pause(){
-    this.#playlist.ui.outputs.audio.pause();
+    this.#playlist.ui.current.audio.pause();
     this.state = Track.STATES.paused;
   }
 
   continue(){
-    this.#playlist.ui.outputs.audio.play();
+    this.#playlist.ui.current.audio.play();
     this.state = Track.STATES.playing;
   }
 
   stop(){
-    this.#playlist.ui.outputs.audio.pause();
-    this.#playlist.ui.outputs.audio.currentTime = 0;
+    this.#playlist.ui.current.audio.pause();
+    this.#playlist.ui.current.audio.currentTime = 0;
     this.state = Track.STATES.stopped;
   }
 
