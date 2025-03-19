@@ -387,7 +387,7 @@ class Track {
   resetInfo(){
     this.#playlist.ui.outputs.artist.value  = ``;
     this.#playlist.ui.outputs.album.value   = ``;
-    this.#playlist.ui.outputs.cd            = ``;
+    this.#playlist.ui.outputs.cd.value      = ``;
     this.#playlist.ui.outputs.track.value   = ``;
     this.#playlist.ui.outputs.song.value    = ``; 
     document.title = "Soundtrack";  
@@ -398,7 +398,7 @@ class Track {
     const cd = this.tags.TPOS?.data;
     this.#playlist.ui.outputs.artist.value  = this.tags.artist ?? `Unknown Artist`;
     this.#playlist.ui.outputs.album.value   = this.tags.album ? `- ${this.tags.album}` : ` - Unknown Album`;
-    this.#playlist.ui.outputs.cd            = cd ? ` - ${cd}` : ``;
+    this.#playlist.ui.outputs.cd.value      = cd ? ` - ${cd}` : ``;
     this.#playlist.ui.outputs.track.value   = this.tags.track ? ` - ${this.tags.track}` : ``;
     this.#playlist.ui.outputs.song.value    = this.tags.title ? `- ${this.tags.title}` : ` - Unknown Title`;
 
