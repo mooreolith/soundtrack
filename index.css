@@ -99,7 +99,7 @@ body {
   }
 
   fieldset > legend {
-    border: 2px dotted orangered;
+    border: 2px dotted #00beef;
     padding: 5px;
   }
 

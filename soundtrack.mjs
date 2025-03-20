@@ -211,13 +211,13 @@ class Playlist {
     let nextIndex;
 
     if(this.#shuffling){
-      nextIndex = Math.floor(Math.random() * this.ui.playlist.children.length); 
+      nextIndex = this.ui.playlist.children[Math.floor(Math.random() * this.ui.playlist.children.length)].dataset.trackIndex; 
     }else{
       nextIndex = this.currentTrack?.entry.nextElementSibling?.dataset.trackIndex;
     }
 
-    if(nextIndex) this.playTrack(this.#tracks[nextIndex]);
-    this.currentTrack.entry.scrollIntoView(Playlist.SCROLL_OPTIONS);
+    const nextTrack = this.#tracks[nextIndex];
+    if(nextTrack) this.playTrack(nextTrack);
   }
 
   toggleShuffle(){
@@ -377,6 +377,7 @@ class Track {
         this.#playlist.ui.current.audio.play();
         this.state = Track.STATES.playing;
         this.setInfo();
+        this.entry.scrollIntoView(Playlist.SCROLL_OPTIONS);
       };
       trackReader.readAsDataURL(this.file);
     }else if(this.state === Track.STATES.paused){
