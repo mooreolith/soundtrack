@@ -194,6 +194,13 @@ class Playlist {
     const coverReader = new FileReader;
     coverReader.onload = () => {
       this.ui.current.cover.src = coverReader.result;
+
+      navigator.mediaSession.metaData = new MediaMetadata({
+        title: track.tags.title ?? 'Unknown Title',
+        artist: track.tags.artist ?? 'Unknown Artist',
+        album: track.tags.album ?? 'Unknown Album',
+        artwork: [{src: coverReader.result, type: 'image/jpeg'}]
+      })
     }
     coverReader.readAsDataURL(this.#albumCovers.get(path));
   }
