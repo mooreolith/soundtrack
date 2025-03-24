@@ -91,6 +91,21 @@ class App {
     navigator.mediaSession.setActionHandler('pause',         () => this.#playlist.pauseTrack());
     navigator.mediaSession.setActionHandler('nexttrack',     () => this.#playlist.nextTrack());
 
+    const defaultSkipTime = 10;
+    navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+      const skipTime = details.seekOffset || defaultSkipTime;
+      this.#ui.current.audio.currentTime = Math.max(
+        this.#ui.current.audio.currentTime - skipTime, 0
+      );
+    })
+    navigator.mediaSession.setActionHandler('seekforward', (details) => {
+      const skipTime = details.seekOffset || defaultSkipTime;
+      this.#ui.current.audio.currentTime = Math.min(
+        this.#ui.current.audio.currentTime + skipTime, 
+        this.#ui.current.audio.duration
+      )
+    })
+
     this.#ui.toggleMenu.onclick = () => qs('.menu.view').classList.toggle('hide');
   }
 
@@ -191,18 +206,29 @@ class Playlist {
     this.currentTrack = track;
     const path = this.currentTrack?.file.webkitRelativePath.split('/').slice(0, -1).join('/');
     
-    const coverReader = new FileReader;
-    coverReader.onload = () => {
-      this.ui.current.cover.src = coverReader.result;
+    if(path){
+      const coverReader = new FileReader;
+      coverReader.onload = () => {
+        this.ui.current.cover.src = coverReader.result;
+
+        navigator.mediaSession.metaData = new MediaMetadata({
+          title: track.tags.title ?? 'Unknown Title',
+          artist: track.tags.artist ?? 'Unknown Artist',
+          album: track.tags.album ?? 'Unknown Album',
+          artwork: [{src: coverReader.result, type: 'image/jpeg'}]
+        })
+      }
+      coverReader.readAsDataURL(this.#albumCovers.get(path));
+    }else{
+      this.ui.current.cover.src = './img/Initial Cover.jpg';
 
       navigator.mediaSession.metaData = new MediaMetadata({
         title: track.tags.title ?? 'Unknown Title',
         artist: track.tags.artist ?? 'Unknown Artist',
         album: track.tags.album ?? 'Unknown Album',
-        artwork: [{src: coverReader.result, type: 'image/jpeg'}]
-      })
+        artwork: [{src: './img/Initial Cover.jpg'}]
+      });
     }
-    coverReader.readAsDataURL(this.#albumCovers.get(path));
   }
 
   pauseTrack(){
@@ -382,6 +408,7 @@ class Track {
         this.#playlist.ui.controls.progress.value = 0.0;
         this.#playlist.ui.current.audio.src = trackReader.result;
         this.#playlist.ui.current.audio.play();
+        navigator.mediaSession.playbackState = "playing";
         this.state = Track.STATES.playing;
         this.setInfo();
         this.entry.scrollIntoView(Playlist.SCROLL_OPTIONS);
@@ -417,6 +444,7 @@ class Track {
 
   pause(){
     this.#playlist.ui.current.audio.pause();
+    navigator.mediaSession.playbackState = "paused";
     this.state = Track.STATES.paused;
   }
 
@@ -427,6 +455,7 @@ class Track {
 
   stop(){
     this.#playlist.ui.current.audio.pause();
+    navigator.mediaSession.playbackState = "paused";
     this.#playlist.ui.current.audio.currentTime = 0;
     this.state = Track.STATES.stopped;
   }

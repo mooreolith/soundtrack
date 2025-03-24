@@ -9,6 +9,12 @@ body {
   overflow-x: hidden;
 }
 
+.progress {
+  background: #00beef; 
+}
+.progress::-moz-progress-bar { background: #00beef; }
+.progress::-webkit-progress-value { background: #00beef; }
+
 @media (min-width: 768px){
   main {
     display: flex;
