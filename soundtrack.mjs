@@ -132,6 +132,7 @@ class LabelMaker {
   static makeLabels(tags){
     const label = ``.concat(
       tags.artist ?? `Unknown Artist`,
+      tags.year ? ` - ${tags.year}` : ``,
       tags.album ? ` - ${tags.album}` : ` - Unknown Album`,
       tags.TPOS?.data ? ` - ${tags.TPOS.data}` : ``,
       tags.track ? ` - ${tags.track}` : ``,

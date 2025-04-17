@@ -279,6 +279,10 @@ body {
     background-color: rgb(231, 231, 231);
   }
 
+  li.entry:first-child {
+    margin-top: 25px;
+  }
+
   .current.entry {
     border: 2px dotted #00beef;
   }
